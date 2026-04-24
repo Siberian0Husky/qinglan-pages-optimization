@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Confirmation | Qinglan Global Feng Shui</title>
+  <meta name="description" content="Your payment has been completed for Qinglan Global Feng Shui." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="checkout">
+  <div class="page-grid"></div>
+  <div class="page-aura aura-left"></div>
+  <div class="page-aura aura-right"></div>
+
+  <header class="site-header shell">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">Qinglan</span>
+      <span class="brand-sub">Global Feng Shui Reports</span>
+    </a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="reports.html">Reports</a>
+      <a href="about.html">Approach</a>
+      <a href="checkout.html">Checkout</a>
+    </nav>
+  </header>
+
+  <main class="shell site-main">
+    <section class="checkout-panel reveal">
+      <div class="section-heading">
+        <p class="eyebrow">Payment Confirmation</p>
+        <h1>Your order has been received.</h1>
+      </div>
+      <div class="section-card">
+        <div id="confirmation-content" class="payment-confirmation">
+          <p>Loading confirmation details…</p>
+        </div>
+        <div class="payment-actions">
+          <a class="btn btn-primary" href="index.html">Return to Home</a>
+          <a class="btn btn-secondary" href="checkout.html">Back to Checkout</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer shell">
+    <p>Qinglan Global Feng Shui</p>
+    <p>PayPal Sandbox ready, Cloudflare-deployable.</p>
+    <p>&copy; <span id="year"></span></p>
+  </footer>
+
+  <script>
+    async function fetchOrderData(orderId) {
+      try {
+        const response = await fetch(`/api/order?orderId=${encodeURIComponent(orderId)}`);
+        if (!response.ok) {
+          throw new Error('Unable to fetch order details.');
+        }
+        return response.json();
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    }
+
+    function getQueryOrderId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('orderId');
+    }
+
+    async function renderConfirmation() {
+      const orderId = getQueryOrderId();
+      const container = document.getElementById('confirmation-content');
+      const yearNode = document.getElementById('year');
+      if (yearNode) {
+        yearNode.textContent = new Date().getFullYear();
+      }
+
+      if (!container) return;
+      if (!orderId) {
+        container.innerHTML = `
+          <div class="paypal-error-message">
+            <h2>Missing order information</h2>
+            <p>We could not find the order details. Please return to checkout and try again.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `<p>Loading confirmation details…</p>`;
+      const order = await fetchOrderData(orderId);
+      if (!order) {
+        container.innerHTML = `
+          <div class="paypal-error-message">
+            <h2>Unable to load order details</h2>
+            <p>There was a problem retrieving your order. Please contact support if this continues.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="paypal-success-message">
+          <h2>Payment Successful</h2>
+          <p>Thank you, <strong>${order.fullName || 'Customer'}</strong>.</p>
+          <p>Your <strong>${order.plan || 'selected service'}</strong> order has been confirmed.</p>
+          <p><strong>Order ID:</strong> ${order.orderId}</p>
+          <p><strong>Email:</strong> ${order.email || 'N/A'}</p>
+          <p><strong>Country:</strong> ${order.country || 'N/A'}</p>
+          <p><strong>Property Type:</strong> ${order.propertyType || 'N/A'}</p>
+          <p><strong>Size Band:</strong> ${order.sizeBand || 'N/A'}</p>
+          <p><strong>Notes:</strong> ${order.notes || 'None'}</p>
+          <p><strong>Amount:</strong> ${order.amount || 'USD 0.00'}</p>
+          <p><strong>PayPal Order ID:</strong> ${order.paypalOrderId || 'N/A'}</p>
+          <p><strong>Created:</strong> ${order.createdAt ? new Date(order.createdAt).toLocaleString() : 'N/A'}</p>
+          <p><strong>Status:</strong> ${order.status || 'pending'}</p>
+        </div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', renderConfirmation);
+  </script>
+</body>
+</html>

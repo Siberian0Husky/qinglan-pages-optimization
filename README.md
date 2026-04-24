@@ -35,3 +35,21 @@ git push -u origin main
 - If your site uses build tooling, adjust the workflow `directory` and build step accordingly.
 - The `_headers` file helps browsers cache `styles.css` and `app.js` for one year while keeping HTML fresh.
 - If you prefer Cloudflare Pages direct GitHub integration, you can still use `_headers` and skip the workflow.
+
+## Cloudflare Pages and backend setup
+
+This project already includes a Cloudflare Pages Function at `functions/order.js`.
+
+Required Cloudflare Pages bindings and secrets:
+
+- `ORDER_KV` — Cloudflare KV namespace binding for order persistence.
+- `SENDGRID_API_KEY` — SendGrid API key for confirmation emails.
+- `SENDGRID_FROM_EMAIL` — sender email address for confirmation emails.
+
+PayPal Sandbox configuration:
+
+- In `checkout.html`, replace `YOUR_SANDBOX_CLIENT_ID` with your actual PayPal Sandbox client ID.
+
+Optional local development
+
+If you want local testing with Wrangler and KV bindings, create a `wrangler.toml` file with your account ID and KV namespace values.

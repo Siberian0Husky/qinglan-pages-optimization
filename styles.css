@@ -359,9 +359,37 @@ body {
   border: 1px solid rgba(25, 21, 20, 0.08);
 }
 
-.note {
+.paypal-success-message,
+.paypal-error-message {
+  margin: 0 0 16px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.paypal-success-message {
+  background: rgba(36, 69, 58, 0.08);
+  color: #26462c;
+  border: 1px solid rgba(36, 69, 58, 0.16);
+}
+
+.paypal-error-message {
+  background: rgba(124, 31, 27, 0.08);
+  color: #7c1f1b;
+  border: 1px solid rgba(124, 31, 27, 0.16);
+}
+
+.payment-success,
+.payment-error {
   margin: 0;
-  color: var(--ink-soft);
+}
+
+.payment-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 18px;
 }
 
 .site-footer {

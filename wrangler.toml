@@ -1,0 +1,14 @@
+name = "qinglan-pages-optimization"
+compatibility_date = "2026-04-25"
+account_id = "YOUR_ACCOUNT_ID"
+
+# Pages functions are served from the functions/ folder in the repository root.
+# Local development with Wrangler can use this sample config.
+
+kv_namespaces = [
+  { binding = "ORDER_KV", id = "YOUR_KV_NAMESPACE_ID" }
+]
+
+[vars]
+SENDGRID_API_KEY = "YOUR_SENDGRID_API_KEY"
+SENDGRID_FROM_EMAIL = "orders@example.com"
