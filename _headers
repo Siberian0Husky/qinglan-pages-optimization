@@ -1,0 +1,8 @@
+/styles.css
+  cache-control: public, max-age=31536000, immutable
+
+/app.js
+  cache-control: public, max-age=31536000, immutable
+
+/*.html
+  cache-control: public, max-age=0, must-revalidate
