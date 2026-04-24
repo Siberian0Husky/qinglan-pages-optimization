@@ -19,6 +19,17 @@ This folder contains recommended config files for Cloudflare Pages and GitHub Ac
    - `CF_PROJECT_NAME`
 6. On every push to the `main` branch, GitHub Actions will deploy the static site to Cloudflare Pages.
 
+## Push to GitHub
+
+If you want to upload this project to GitHub, run:
+
+```bash
+cd qinglan-pages-optimization
+git remote add origin <your-github-repo-url>
+git branch -M main
+git push -u origin main
+```
+
 ## Notes
 
 - If your site uses build tooling, adjust the workflow `directory` and build step accordingly.
